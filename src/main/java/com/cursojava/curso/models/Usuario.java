@@ -1,59 +1,38 @@
 package com.cursojava.curso.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity // Para indicar que es una entidad que hace referencia a la BBDD
+@Table(name = "usuarios") // para indicarle a la función getUsuarios a cuál tabla debe ir
 public class Usuario {
 
+    // Con @Getter y @Setter no es necesario crear los respectivos métodos
+    // Así se ahorra código
+
+    // @Column es para indicarle a getUsuarios cuál columna es cuál
+
+    @Id // para indicar que será la clave primaria, el identificador
+    @Getter @Setter @Column(name = "id")
     private long id;
+
+    @Getter @Setter @Column(name = "nombre")
     private String nombre;
+
+    @Getter @Setter @Column(name = "apellido")
     private String apellido;
+
+    @Getter @Setter @Column(name = "email")
     private String email;
+
+    @Getter @Setter @Column(name = "telefono")
     private String telefono;
+
+    @Getter @Setter @Column(name = "password")
     private String password;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
