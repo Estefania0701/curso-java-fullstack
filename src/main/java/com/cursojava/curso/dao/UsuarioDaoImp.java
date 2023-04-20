@@ -27,4 +27,4 @@ public class UsuarioDaoImp implements UsuarioDao{
     }
 }
 
-// llegué hasta el 2:06:00
+// llegué hasta el 2:23:00
