@@ -92,6 +92,19 @@ public class UsuarioDaoImp implements UsuarioDao{
         Usuario usuario = entityManager.find(Usuario.class, id);
         entityManager.remove(usuario);
     }
+
+    @Override
+    public void registrar(Usuario usuario) {
+        /* El método merge combina el estado del objeto usuario con el estado
+        de la entidad correspondiente en la base de datos y devuelve una nueva
+        instancia de la entidad actualizada o una referencia a la entidad
+        actualizada si ya existe en la base de datos. Si el objeto usuario no
+        está siendo rastreado por el contexto de persistencia, se convierte
+        en una nueva entidad persistente. Si el objeto ya está siendo
+        rastreado por el contexto de persistencia, sus cambios se sincronizan
+        con la entidad persistente correspondiente en la base de datos.*/
+        entityManager.merge(usuario);
+    }
 }
 
 // llegué hasta el 2:23:00

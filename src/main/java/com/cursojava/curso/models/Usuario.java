@@ -1,9 +1,6 @@
 package com.cursojava.curso.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +14,7 @@ public class Usuario {
     // @Column es para indicarle a getUsuarios cuál columna es cuál
 
     @Id // para indicar que será la clave primaria, el identificador
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // para que se autoincremente
     @Getter @Setter @Column(name = "id")
     private long id;
 

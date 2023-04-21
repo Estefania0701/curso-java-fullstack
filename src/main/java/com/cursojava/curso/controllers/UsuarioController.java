@@ -21,10 +21,7 @@ package com.cursojava.curso.controllers;
 import com.cursojava.curso.dao.UsuarioDao;
 import com.cursojava.curso.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -82,10 +79,27 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "api/usuarios")
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
     public List<Usuario> getUsuarios(){
         // devuelve una lista de usuarios
         return usuarioDao.getUsuarios();
+    }
+
+    /*
+    --- La anotación @RequestBody en Spring indica que un método de controlador
+    debe esperar un objeto en el cuerpo de una solicitud HTTP entrante y luego
+    intentará convertir ese cuerpo de solicitud en el objeto Java
+    correspondiente. Es decir, Spring intentará deserializar el cuerpo de la
+    solicitud en el objeto Java que se especifique en el parámetro del método
+    anotado con @RequestBody.
+    --- El método registrarUsuario() espera un objeto Usuario en el cuerpo
+    de la solicitud HTTP entrante. Luego, Spring intentará convertir el cuerpo
+    de la solicitud en un objeto Usuario. Si la conversión es exitosa, se
+    pasará el objeto Usuario como parámetro al método registrar() del objeto
+    usuarioDao.*/
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.POST)
+    public void registrarUsuario(@RequestBody Usuario usuario){
+        usuarioDao.registrar(usuario);
     }
 
     @RequestMapping(value = "usuario2")

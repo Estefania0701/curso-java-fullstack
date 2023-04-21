@@ -12,4 +12,6 @@ public interface UsuarioDao {
 
     // para eliminar usuarios
     void eliminar(Long id);
+
+    void registrar(Usuario usuario);
 }
