@@ -21,5 +21,11 @@ async function iniciarSesion () {
         body: JSON.stringify(datos) // cuerpo (conversión de objeto JS a cadena JSON)
     });
 
-    const respuesta = await request.json();
+    const respuesta = await request.text();
+
+    if (respuesta == "OK") {
+        window.location.href = "usuarios.html";
+    } else {
+        alert("El email o la contraseña son incorrectos. Verifica los datos ingresados")
+    }
 }
