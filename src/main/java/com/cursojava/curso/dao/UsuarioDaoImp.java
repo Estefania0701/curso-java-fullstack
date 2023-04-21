@@ -105,6 +105,24 @@ public class UsuarioDaoImp implements UsuarioDao{
         con la entidad persistente correspondiente en la base de datos.*/
         entityManager.merge(usuario);
     }
+
+    @Override
+    public boolean verificarCredenciales(Usuario usuario) {
+        /* Verifica si las credenciales de un usuario son correctas,
+        es decir, si el email y la contraseña ingresados por el usuario
+        coinciden con los datos almacenados en la base de datos.*/
+
+        String query = "FROM Usuario WHERE email = :email AND password = :password";
+
+        // la lista quedará vacía si la consulta no devuelve ningún dato
+        // Significará que las credenciales no están registradas (nuevo usuario)
+        List<Usuario> lista = entityManager.createQuery(query)
+                .setParameter("email", usuario.getEmail())
+                .setParameter("password", usuario.getPassword())
+                .getResultList();
+
+        return lista.isEmpty();
+    }
 }
 
 // llegué hasta el 2:23:00
