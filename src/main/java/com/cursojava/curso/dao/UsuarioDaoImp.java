@@ -83,6 +83,15 @@ public class UsuarioDaoImp implements UsuarioDao{
         // Devuelvo la lista de usuarios previamente obtenida
         return resultado;
     }
+
+    @Override
+    public void eliminar(Long id) {
+        /* Busca el objeto Usuario correspondiente al id pasado como argumento,
+        utilizando el método find del objeto entityManager. Luego, se elimina
+        ese objeto Usuario utilizando el método remove del objeto entityManager.*/
+        Usuario usuario = entityManager.find(Usuario.class, id);
+        entityManager.remove(usuario);
+    }
 }
 
 // llegué hasta el 2:23:00

@@ -23,6 +23,7 @@ import com.cursojava.curso.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -62,13 +63,12 @@ public class UsuarioController {
     específicos que manejan solicitudes HTTP.
     --- value indica que cuando el servidor reciba una solicitud HTTP GET
     a la URL "localhost:8080/api/usuario/{id}", este método será ejecutado.
-    --- value indica la última parte de la URL a la que este método responderá.
     --- El valor completo de la URL que se debe utilizar para acceder a este
     método será la URL base del servidor (en este caso "localhost:8080")
     más la parte de la URL especificada en la anotación @RequestMapping
     (en este caso, "api/usuario/{id}")
     VER ABAJO PARA MÁS INFO SOBRE REQUEST MAPPING.*/
-    @RequestMapping(value = "api/usuario/{id}") // "api" es solo para separar a nivel práctico el frontend del backend
+    @RequestMapping(value = "api/usuarios/{id}", method = RequestMethod.GET) // "api" es solo para separar a nivel práctico el frontend del backend
     public Usuario getUsuario(@PathVariable Long id){
         // recibe un ID y devuelve el respectivo usuario
 
@@ -99,15 +99,18 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario3")
-    public Usuario eliminar(){
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Estefanía");
-        usuario.setApellido("Aguas");
-        usuario.setEmail("estefaniaaguas@gmail.com");
-        usuario.setTelefono("3145936328");
-
-        return usuario;
+    /* DELETE es una de las operaciones CRUD (Create, Read, Update, Delete)
+    que se pueden realizar en una API REST
+    Cuando un cliente realiza una solicitud DELETE a una URL en un servidor,
+    el servidor elimina el recurso identificado por la URL y devuelve una
+    respuesta al cliente indicando que se ha eliminado el recurso o, si no
+    se pudo eliminar, una indicación de error.*/
+    @RequestMapping(value = "api/usuarios/{id}", method = RequestMethod.DELETE)
+    /* @PathVariable indica que el valor del parámetro de método (en este caso,
+    "id") se obtendrá de la variable en la URL. En otras palabras, este
+    parámetro se extrae de la URL y se asigna al parámetro "id" del método.*/
+    public void eliminar(@PathVariable Long id){
+        usuarioDao.eliminar(id);
     }
 
     @RequestMapping(value = "usuario4")
@@ -129,4 +132,6 @@ como el tipo de solicitud HTTP (GET, POST, PUT, DELETE), el tipo de contenido
 que se espera (JSON, XML, HTML, etc.) y otros parámetros de configuración. De
 esta manera, podemos crear una ruta de acceso muy específica y personalizada
 para cada método dentro de nuestra aplicación web.
+
+Por defecto (si no se especifica uno), el tipo de método usado es GET
 */

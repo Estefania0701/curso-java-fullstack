@@ -9,4 +9,7 @@ import java.util.List;
 sobre un objeto Usuario */
 public interface UsuarioDao {
     List<Usuario> getUsuarios();
+
+    // para eliminar usuarios
+    void eliminar(Long id);
 }

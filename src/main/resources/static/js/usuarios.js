@@ -49,9 +49,14 @@ async function cargarUsuarios () {
     /* Recorre cada objeto de usuario en la lista de usuarios y crear una
     fila de tabla HTML con los datos de cada usuario.*/
     for (let usuario of usuarios) {
+
+        // contiene el código HTML del botón eliminar
+        let botonEliminar = '<a href="#" onclick="eliminarUsuario('+usuario.id+')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
+
+
         let usuarioHTML = '<tr><td>'+usuario.id+'</td><td>'+usuario.nombre+' '+usuario.apellido
             +'</td><td>'+usuario.email+'</td><td>'+usuario.telefono
-            +'</td><td><a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>';
+            +'</td><td>'+botonEliminar+'</td></tr>';
 
     /* La cadena de texto de la fila de usuario se agrega a la cadena
     listadoHTML en cada iteración del bucle. */
@@ -64,7 +69,14 @@ async function cargarUsuarios () {
     document.querySelector("#usuarios tbody").outerHTML = listadoHTML;
 }
 
-/* ------------------------ NOTA
+function eliminarUsuario() {
+    alert(id);
+}
+
+
+
+
+/* ------------------------ ASYNC Y AWAIT -----------------------------
 
 El uso de async y await está relacionado con el manejo de promesas.
 Al declarar una función con la palabra clave async, esta automáticamente
