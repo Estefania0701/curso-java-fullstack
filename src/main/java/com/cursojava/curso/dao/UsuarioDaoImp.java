@@ -6,6 +6,8 @@ través de la biblioteca de persistencia de Java llamada JPA (Java Persistence A
 package com.cursojava.curso.dao;
 
 import com.cursojava.curso.models.Usuario;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -112,16 +114,29 @@ public class UsuarioDaoImp implements UsuarioDao{
         es decir, si el email y la contraseña ingresados por el usuario
         coinciden con los datos almacenados en la base de datos.*/
 
-        String query = "FROM Usuario WHERE email = :email AND password = :password";
+        String query = "FROM Usuario WHERE email = :email";
 
-        // la lista quedará vacía si la consulta no devuelve ningún dato
+        // La lista quedará vacía si la consulta no devuelve ningún dato
         // Significará que las credenciales no están registradas (nuevo usuario)
         List<Usuario> lista = entityManager.createQuery(query)
                 .setParameter("email", usuario.getEmail())
-                .setParameter("password", usuario.getPassword())
                 .getResultList();
 
-        return lista.isEmpty();
+        // Si la lista queda vacía se detiene la función para no generar error con el código siguiente
+        if (lista.isEmpty()) {
+            return false;
+        }
+
+        // Obtengo la contraseña hasheada
+        String passwordHash = lista.get(0).getPassword();
+
+        // Creo una instancia de Argon2
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+
+
+
+        // Retorna un booleano
+        return argon2.verify(passwordHash, usuario.getPassword());
     }
 }
 
