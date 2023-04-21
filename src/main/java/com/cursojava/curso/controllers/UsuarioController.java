@@ -61,14 +61,14 @@ public class UsuarioController {
     clase anotada con @Controller o @RestController para mapear URLs a métodos
     específicos que manejan solicitudes HTTP.
     --- value indica que cuando el servidor reciba una solicitud HTTP GET
-    a la URL "localhost:8080/usuario/{id}", este método será ejecutado.
+    a la URL "localhost:8080/api/usuario/{id}", este método será ejecutado.
     --- value indica la última parte de la URL a la que este método responderá.
     --- El valor completo de la URL que se debe utilizar para acceder a este
     método será la URL base del servidor (en este caso "localhost:8080")
     más la parte de la URL especificada en la anotación @RequestMapping
-    (en este caso, "usuario/{id}")
+    (en este caso, "api/usuario/{id}")
     VER ABAJO PARA MÁS INFO SOBRE REQUEST MAPPING.*/
-    @RequestMapping(value = "usuario/{id}")
+    @RequestMapping(value = "api/usuario/{id}") // "api" es solo para separar a nivel práctico el frontend del backend
     public Usuario getUsuario(@PathVariable Long id){
         // recibe un ID y devuelve el respectivo usuario
 
@@ -82,7 +82,7 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuarios")
+    @RequestMapping(value = "api/usuarios")
     public List<Usuario> getUsuarios(){
         // devuelve una lista de usuarios
         return usuarioDao.getUsuarios();

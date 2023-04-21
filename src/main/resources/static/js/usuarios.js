@@ -26,7 +26,7 @@ async function cargarUsuarios () {
     por fetch(). Esto asegura que no se continúe con el resto del código
     hasta que se tenga la información necesaria.
     VER ABAJO MÁS INFO SOBRE ASYNC Y AWAIT*/
-    const request = await fetch('usuarios', { // URL usuarios
+    const request = await fetch('api/usuarios', { // URL usuarios
         method: 'GET', // tipo de solicitud (HTTP GET)
         headers: { // encabezados
           'Accept': 'application/json',
