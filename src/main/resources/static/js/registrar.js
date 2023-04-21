@@ -30,10 +30,6 @@ async function registrarUsuario () {
         body: JSON.stringify(datos) // cuerpo (conversión de objeto JS a cadena JSON)
     });
     // VER ABAJO EXPLICACIÓN DE body: JSON.stringify
-
-    /* Espera que la respuesta llegue y se convierta a JSON mediante el
-    uso de la función ".json()" en el objeto "request" */
-    const usuarios = await request.json();
 }
 
 /* ---------------- JSON.STRINGIFY()
