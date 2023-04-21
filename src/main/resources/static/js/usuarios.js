@@ -1,34 +1,83 @@
-// Call the dataTables jQuery plugin
+/*
+Se ejecuta al cargar el documento en el navegador y llama a dos funciones:
+cargarUsuarios() y $('#usuarios').DataTable().
+La función, $('#usuarios').DataTable(), es una función de jQuery que transforma
+la tabla HTML "#usuarios" en una tabla dinámica que permite buscar, ordenar y
+filtrar los datos de manera interactiva.
+*/
 $(document).ready(function() {
     cargarUsuarios();
     $('#usuarios').DataTable();
 });
 
-// async para indicar que es asincrónica
+// ------------------------------------------------------------------------------
+
+/* async indica que la función es asincrónica y puede esperar la respuesta
+de una solicitud a un servidor.*/
 async function cargarUsuarios () {
-    const request = await fetch('usuarios', { // utiliza la API fetch para hacer una solicitud a la URL "usuario/1234"
-        method: 'GET', // solicitud de tipo HTTP GET
-        headers: {
+
+    /* Utiliza la API fetch para hacer una solicitud HTTP GET a la URL
+    "usuarios". Esta solicitud se envía al servidor para obtener una lista
+    de usuarios.
+    --- fetch() devuelve una Promesa, que representa un valor que puede
+    estar disponible ahora, en el futuro o nunca.
+    --- Con await se crea una pausa en la ejecución del código en la línea
+    donde se realiza la solicitud hasta que se resuelve la promesa devuelta
+    por fetch(). Esto asegura que no se continúe con el resto del código
+    hasta que se tenga la información necesaria.
+    VER ABAJO MÁS INFO SOBRE ASYNC Y AWAIT*/
+    const request = await fetch('usuarios', { // URL usuarios
+        method: 'GET', // tipo de solicitud (HTTP GET)
+        headers: { // encabezados
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json' // tipo de contenido
         }
     });
 
-    // espera que la respuesta llegue y se convierta a JSON mediante el uso de la función ".json()" en el objeto "request"
+    /* Espera que la respuesta llegue y se convierta a JSON mediante el
+    uso de la función ".json()" en el objeto "request" */
     const usuarios = await request.json();
 
-    // se registra en la consola el objeto que contiene los datos del usuario que se obtuvieron en la solicitud GET
+    /* Registra los datos del objeto usuarios en la consola del navegador
+    para fines de depuración.*/
     console.log(usuarios);
 
-    // ciclo para crear varias filas de usuarios en la tabla
+    /* Contendrá las filas de la tabla HTML que se creará dinámicamente con
+    los datos de los usuarios.*/
     let listadoHTML = "";
+
+    /* Recorre cada objeto de usuario en la lista de usuarios y crear una
+    fila de tabla HTML con los datos de cada usuario.*/
     for (let usuario of usuarios) {
         let usuarioHTML = '<tr><td>'+usuario.id+'</td><td>'+usuario.nombre+' '+usuario.apellido
             +'</td><td>'+usuario.email+'</td><td>'+usuario.telefono
             +'</td><td><a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a></td></tr>';
+
+    /* La cadena de texto de la fila de usuario se agrega a la cadena
+    listadoHTML en cada iteración del bucle. */
     listadoHTML += usuarioHTML;
     }
 
-
+    /* La cadena listadoHTML se asigna al HTML del elemento tbody de la
+    tabla HTML, reemplazando cualquier contenido que ya haya sido generado
+    en esa área de la tabla.*/
     document.querySelector("#usuarios tbody").outerHTML = listadoHTML;
 }
+
+/* ------------------------ NOTA
+
+El uso de async y await está relacionado con el manejo de promesas.
+Al declarar una función con la palabra clave async, esta automáticamente
+devuelve una promesa. Además, cualquier función que tenga una promesa como
+resultado puede ser marcada con la palabra clave await para pausar la
+ejecución del código hasta que la promesa se resuelva.
+
+Cuando se utiliza await en una función async, el código que sigue
+inmediatamente después de await solo se ejecutará una vez que la promesa se
+haya resuelto. Mientras tanto, el hilo de ejecución se liberará y se
+permitirá que otras operaciones continúen. En otras palabras, await detiene
+la ejecución del código en ese punto hasta que se resuelve la promesa, pero
+permite que el programa siga avanzando en otros aspectos, lo que lo hace
+útil para trabajar con solicitudes asincrónicas y otras operaciones que
+pueden tardar un tiempo variable en completarse.
+*/
