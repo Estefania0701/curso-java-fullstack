@@ -30,6 +30,10 @@ async function registrarUsuario () {
         body: JSON.stringify(datos) // cuerpo (conversión de objeto JS a cadena JSON)
     });
     // VER ABAJO EXPLICACIÓN DE body: JSON.stringify
+
+    alert("La cuenta fue creada con éxito");
+
+    window.location.href = "login.html";
 }
 
 /* ---------------- JSON.STRINGIFY()
