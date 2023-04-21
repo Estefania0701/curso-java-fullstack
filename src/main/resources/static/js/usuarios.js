@@ -69,7 +69,7 @@ async function cargarUsuarios () {
     document.querySelector("#usuarios tbody").outerHTML = listadoHTML;
 }
 
-function eliminarUsuario() {
+function eliminarUsuario(id) {
     alert(id);
 }
 
