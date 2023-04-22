@@ -8,9 +8,26 @@ filtrar los datos de manera interactiva.
 $(document).ready(function() {
     cargarUsuarios();
     $('#usuarios').DataTable();
+
+    actualizarEmailDelUsuario();
 });
 
 // ------------------------------------------------------------------------------
+
+function actualizarEmailDelUsuario() {
+    // muestra el email del usuario en la esquina superior derecha
+    document.getElementById("txt-email-usuario").outerHTML = localStorage.email;
+}
+
+function getHeaders () {
+    // devuelve los encabezados para reducir código al hacer la solicitud al servidor
+
+    return { // encabezados
+                'Accept': 'application/json',
+                'Content-Type': 'application/json', // tipo de contenido
+                'Authorization': localStorage.token
+                };
+}
 
 /* async indica que la función es asincrónica y puede esperar la respuesta
 de una solicitud a un servidor.*/
@@ -28,10 +45,7 @@ async function cargarUsuarios () {
     VER ABAJO MÁS INFO SOBRE ASYNC Y AWAIT*/
     const request = await fetch('api/usuarios', { // URL usuarios
         method: 'GET', // tipo de solicitud (HTTP GET)
-        headers: { // encabezados
-          'Accept': 'application/json',
-          'Content-Type': 'application/json' // tipo de contenido
-        }
+        headers: getHeaders()
     });
 
     /* Espera que la respuesta llegue y se convierta a JSON mediante el
@@ -72,6 +86,7 @@ async function cargarUsuarios () {
     document.querySelector("#usuarios tbody").outerHTML = listadoHTML;
 }
 
+
 async function eliminarUsuario(id) {
     // elimina un usuario con base en su ID
 
@@ -82,10 +97,7 @@ async function eliminarUsuario(id) {
     }
     const request = await fetch('api/usuarios/'+id, { // URL usuarios
         method: 'DELETE', // tipo de solicitud (HTTP DELETE)
-        headers: { // encabezados
-          'Accept': 'application/json',
-          'Content-Type': 'application/json' // tipo de contenido
-        }
+        headers: getHeaders()
     });
 
     // se actualiza la página automáticamente
