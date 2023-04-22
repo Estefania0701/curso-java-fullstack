@@ -109,7 +109,7 @@ public class UsuarioDaoImp implements UsuarioDao{
     }
 
     @Override
-    public boolean verificarCredenciales(Usuario usuario) {
+    public Usuario obtenerUsuarioPorCredenciales(Usuario usuario) {
         /* Verifica si las credenciales de un usuario son correctas,
         es decir, si el email y la contraseña ingresados por el usuario
         coinciden con los datos almacenados en la base de datos.*/
@@ -124,7 +124,7 @@ public class UsuarioDaoImp implements UsuarioDao{
 
         // Si la lista queda vacía se detiene la función para no generar error con el código siguiente
         if (lista.isEmpty()) {
-            return false;
+            return null;
         }
 
         // Obtengo la contraseña hasheada
@@ -134,9 +134,10 @@ public class UsuarioDaoImp implements UsuarioDao{
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
 
 
-
-        // Retorna un booleano
-        return argon2.verify(passwordHash, usuario.getPassword());
+        if (argon2.verify(passwordHash, usuario.getPassword())){
+            return lista.get(0); // retorno el usuario
+        };
+        return null;
     }
 }
 
