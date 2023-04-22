@@ -23,7 +23,14 @@ async function iniciarSesion () {
 
     const respuesta = await request.text();
 
-    if (respuesta == "OK") {
+    /* Para consultar los datos guardados en el local store:
+    1. F12 para abrir inspeccionar
+    2. Buscar la ventana Aplicación
+    3. En el menú a la izquierda buscar la sección Almacenamient
+    4. Click en la URL (en este caso http://localhost:8080*/
+    if (respuesta != "FAIL") {
+        localStorage.token = respuesta; // guardo el token en el local storage
+        localStorage.email = datos.email; // también guardo el email
         window.location.href = "usuarios.html";
     } else {
         alert("El email o la contraseña son incorrectos. Verifica los datos ingresados")
