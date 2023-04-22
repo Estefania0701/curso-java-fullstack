@@ -20,11 +20,13 @@ package com.cursojava.curso.controllers;
 
 import com.cursojava.curso.dao.UsuarioDao;
 import com.cursojava.curso.models.Usuario;
+import com.cursojava.curso.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -57,6 +59,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioDao usuarioDao;
 
+    @Autowired
+    private JWTUtil jwtUtil;
+
     /* La anotación @RequestMapping es utilizada en métodos dentro de una
     clase anotada con @Controller o @RestController para mapear URLs a métodos
     específicos que manejan solicitudes HTTP.
@@ -82,9 +87,22 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
-    public List<Usuario> getUsuarios(){
+    // token tendrá el valor contenido en la clave "Authorization" que llega en la cabecera
+    public List<Usuario> getUsuarios(@RequestHeader(value="Authorization") String token){
+
+        // si no retorna el ID
+        if (!validarToken(token)) {
+            return null;
+        }
         // devuelve una lista de usuarios
         return usuarioDao.getUsuarios();
+    }
+
+    private boolean validarToken(String token) {
+        String usuarioId = jwtUtil.getKey(token); // la clave del token es el ID
+
+        // retorna el ID si no es nullo
+        return usuarioId != null;
     }
 
     /*
@@ -140,19 +158,15 @@ public class UsuarioController {
     /* @PathVariable indica que el valor del parámetro de método (en este caso,
     "id") se obtendrá de la variable en la URL. En otras palabras, este
     parámetro se extrae de la URL y se asigna al parámetro "id" del método.*/
-    public void eliminar(@PathVariable Long id){
+    public void eliminar(@RequestHeader(value="Authorization") String token,
+                         @PathVariable Long id){
+
+        // si no devuelve el ID, no hay sesión iniciada
+        if (!validarToken(token)) {
+            return;
+        }
+
         usuarioDao.eliminar(id);
-    }
-
-    @RequestMapping(value = "usuario4")
-    public Usuario buscar(){
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Estefanía");
-        usuario.setApellido("Aguas");
-        usuario.setEmail("estefaniaaguas@gmail.com");
-        usuario.setTelefono("3145936328");
-
-        return usuario;
     }
 }
 
