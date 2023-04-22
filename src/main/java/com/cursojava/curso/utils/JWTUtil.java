@@ -146,6 +146,11 @@ significa que toda la información necesaria para la autenticación y
 autorización se encuentra en el token, lo que hace que sea fácil de transmitir
 y almacenar en el lado del cliente.
 
+RECOMENDACIÓN DEL CURSO: Para mejorar la autenticación con JWT, investigar sobre
+    - Spring Secutiry para crear archivos de configuración que automaticen el mappeo
+    - Manejo de control de errores (por ej., devolver 401 si no hay autorización)
+
+
 -------------------------------- @COMPONENT ------------------------------------
 
 Los componentes pueden ser inyectados en otras clases utilizando las
